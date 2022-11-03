@@ -9,23 +9,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
    // Reducer
    const reducer = (state = initialState, action) => {
+      let newState = {}
+      function calculate_total() {
+         newState = {
+            ...newState,
+            total: newState.sub_total - newState.discount
+         }
+         console.log(newState)
+         return newState;
+      }
       switch (action.type) {
          case "ADD_ITEM":
-            return {
+            newState = {
                ...state, sub_total: parseInt(state.sub_total) + parseInt(action.payload)
-            };
+            }
+
+            return calculate_total();
          case "REMOVE_ITEM":
-            return {
+            newState = {
                ...state,
                sub_total: parseInt(state.sub_total) - parseInt(action.payload)
 
             }
+            return calculate_total();
          case "CHANGE_USER":
-            return {
+            newState = {
                ...state,
                discount: action.payload
             }
-
+            return calculate_total();
       }
       return { ...state };
    }
